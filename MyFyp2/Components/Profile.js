@@ -36,9 +36,9 @@ export default class ProfileScreen extends Component {
                     marginBottom: 5,
                   },
                 ]}>
-                Dante
+                Jahanzeb
               </Title>
-              <Caption style={styles.caption}>@dante</Caption>
+              <Caption style={styles.caption}>jahanzebakbar7@gmail.com</Caption>
             </View>
           </View>
         </View>
@@ -53,7 +53,7 @@ export default class ProfileScreen extends Component {
           <View style={styles.row}>
             <Icon name="mail" />
             <Text style={{color: '#777777', marginLeft: 20}}>
-              dante@gmail.com
+              jahanzebakbar7@gmail.com
             </Text>
           </View>
           <View style={styles.row}>

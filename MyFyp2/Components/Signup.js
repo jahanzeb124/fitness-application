@@ -37,7 +37,7 @@ export default class Signup extends Component {
       weight: this.state.weight,
       age: this.state.age,
     };
-    Axios.post('http://192.168.10.3:3000/users/Signup', user)
+    Axios.post('http://192.168.10.7:3000/users/Signup', user)
       .then((res) => console.log(res.data))
       .catch((error) => console.error(error));
     alert('operation done');
@@ -175,7 +175,7 @@ export default class Signup extends Component {
           <View style={styles.signin}>
             <Text style={{color: 'black'}}>Already have an Account?</Text>
             <TouchableOpacity onPress={this.back}>
-              <Text style={{color: 'white'}}> Sign in</Text>
+              <Text style={{color: 'brown'}}> Sign in</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -196,7 +196,7 @@ const styles = StyleSheet.create({
   },
   footer: {
     flex: 9,
-    backgroundColor: '#6E5BAA',
+    backgroundColor: '#FFFF',
 
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
@@ -210,34 +210,35 @@ const styles = StyleSheet.create({
   },
   action: {
     flexDirection: 'row',
-    borderBottomWidth: 1,
+
     borderBottomColor: '#000',
   },
   inputbox: {
     flex: 1,
     marginTop: 5,
-    paddingBottom: 5,
-    color: 'gray',
+
+    color: 'brown',
   },
   btn: {
-    marginLeft: 55,
-    width: 200,
+    marginLeft: 80,
+    width: 180,
     borderRadius: 25,
     marginVertical: 35,
-    height: 50,
-
+    height: 55,
+    backgroundColor: '#631a3e',
     borderColor: 'black',
     borderWidth: 2,
   },
   btntxt: {
     fontSize: 24,
     marginVertical: 8,
+    color: 'white',
     paddingHorizontal: 16,
     textAlign: 'center',
   },
   signin: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginTop: 10,
+    marginTop: 60,
   },
 });

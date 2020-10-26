@@ -19,7 +19,23 @@ import Chat3 from './Components/Chat3';
 import You from './Components/fitness';
 import Car from './Components/MealPlans';
 import {NavigationContainer, DrawerActions} from '@react-navigation/native';
-
+import ChatContainer from './Components/chatcontainer';
+import Convo from './Components/convo';
+import Decide from './Components/decide';
+import {
+  TouchableHighlight,
+  TouchableOpacity,
+} from 'react-native-gesture-handler';
+// import {firebase} from '@react-native-firebase/firestore';
+// firebase.initializeApp({
+//   appId: '',
+//   apiKey: '',
+//   projectId: '',
+//   databaseURL: '',
+//   storageBucket: '',
+//   messagingSenderId: '',
+//   clientId: '1:744817106063:android:8c73fe76fd260b6f40a4fa',
+// });
 class AuthLoadingScreen extends Component {
   constructor(props) {
     super(props);
@@ -32,7 +48,7 @@ class AuthLoadingScreen extends Component {
 
 const Appstack = createStackNavigator({
   Home: {
-    screen: Login,
+    screen: ChatContainer,
     navigationOptions: {
       headerShown: false,
     },
@@ -49,10 +65,11 @@ const Appstack = createStackNavigator({
       headerLeft: () => (
         <Icon.Button
           name="ios-menu"
-          size={12}
-          onPress={() =>
-            navigation.dispatch(DrawerActions.openDrawer())
-          }></Icon.Button>
+          size={10}
+          // onPress={() =>
+          //   navigation.dispatch(DrawerActions.openDrawer())
+          // }
+        ></Icon.Button>
       ),
     },
   },
@@ -77,6 +94,20 @@ const Appstack = createStackNavigator({
 
   privacy: {
     screen: Privacy,
+
+    navigationOptions: {
+      headerShown: false,
+    },
+  },
+  Chats: {
+    screen: ChatContainer,
+
+    navigationOptions: {
+      headerShown: false,
+    },
+  },
+  Convo: {
+    screen: Convo,
 
     navigationOptions: {
       headerShown: false,

@@ -9,6 +9,7 @@ import {
   ScrollView,
   View,
   Text,
+  Image,
   DeviceEventEmitter,
   StatusBar,
   Button,
@@ -35,7 +36,7 @@ export default class Login extends Component {
       username: this.state.username,
       password: this.state.password,
     };
-    Axios.post('http://192.168.10.3:3000/users/login', user)
+    Axios.post('http://192.168.10.7:3000/users/login', user)
       .then((res) => {
         if (res.status == 200) {
           this.id = res.data.User._id;
@@ -53,18 +54,12 @@ export default class Login extends Component {
     return (
       <View style={styles.container}>
         <StatusBar hidden></StatusBar>
-
         <View style={styles.header}>
-          <Text
-            style={{
-              fontSize: 35,
-              marginTop: 30,
-              color: 'black',
-              fontWeight: 'bold',
-            }}>
-            Welcome Back!!!
-          </Text>
+          <Image
+            source={require('../header.jpeg')}
+            style={styles.imageBackground}></Image>
         </View>
+
         <View style={styles.footer}>
           <Text
             style={[
@@ -77,13 +72,14 @@ export default class Login extends Component {
           </Text>
           <View style={styles.action}>
             <TextInput
-              style={styles.inputbox}
-              placeholder="Name"
-              placeholderTextColor="grey"
+              placeholder="Your name...."
+              style={styles.textInput}
+              // value="a"
               onChangeText={(text) => {
                 this.setState({username: text});
               }}
-              onSubmitEditing={() => this.password.focus()}></TextInput>
+              onSubmitEditing={() => this.password.focus()}
+            />
           </View>
 
           <Text
@@ -97,14 +93,15 @@ export default class Login extends Component {
           </Text>
           <View style={styles.action}>
             <TextInput
-              style={styles.inputbox}
-              secureTextEntry={true}
-              placeholder="Password"
-              placeholderTextColor="grey"
+              secureTextEntry
+              placeholder="Your password.."
+              style={styles.textInput}
+              // value="a"
               onChangeText={(text) => {
                 this.setState({password: text});
               }}
-              ref={(input) => (this.password = input)}></TextInput>
+              ref={(input) => (this.password = input)}
+            />
           </View>
 
           <View style={styles.btn}>
@@ -113,9 +110,9 @@ export default class Login extends Component {
             </TouchableOpacity>
           </View>
           <View style={styles.signUp}>
-            <Text style={{color: 'black'}}>New user?</Text>
+            <Text style={{color: 'black'}}>New user? </Text>
             <TouchableOpacity onPress={this.press}>
-              <Text style={{color: 'white'}}> Sign up</Text>
+              <Text style={{color: 'brown'}}>Signup...</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -127,51 +124,39 @@ export default class Login extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFF',
+    backgroundColor: 'white',
+    justifyContent: 'center',
   },
   header: {
     flex: 1,
-    alignItems: 'center',
   },
   footer: {
-    flex: 5,
-
-    backgroundColor: '#6E5BAA',
-
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
-    paddingVertical: 50,
-    paddingHorizontal: 30,
+    flex: 2,
+    padding: 20,
+  },
+  imageBackground: {
+    width: 450,
+    height: 250,
   },
   title: {
     color: 'black',
-
-    fontSize: 20,
+    fontWeight: 'bold',
   },
   action: {
     flexDirection: 'row',
     borderBottomWidth: 1,
-    borderBottomColor: '#000',
+    borderBottomColor: '#0000',
   },
-  inputbox: {
+  textInput: {
     flex: 1,
     marginTop: 5,
-    paddingBottom: 5,
-    color: 'white',
-  },
-  button_container: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  textLogin: {
-    color: 'white',
-    fontWeight: 'bold',
-    fontSize: 18,
+
+    color: 'brown',
   },
   btn: {
-    marginLeft: 55,
-    width: 200,
-
+    marginLeft: 100,
+    width: 180,
+    backgroundColor: '#631a3e',
     borderRadius: 25,
     marginVertical: 30,
     height: 50,
@@ -184,10 +169,11 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     paddingHorizontal: 16,
     textAlign: 'center',
+    color: 'white',
   },
   signUp: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginTop: 185,
+    marginTop: 120,
   },
 });

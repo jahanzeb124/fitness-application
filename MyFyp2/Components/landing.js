@@ -1,27 +1,30 @@
 import {View, ScrollView, Text, Image} from 'react-native';
 import {Card, ListItem, Button, Icon} from 'react-native-elements';
 import React from 'react';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 const Land = () => {
   return (
     <ScrollView>
-      <Card title="MEAL PLANS" image={require('../images/pic.jpg')}>
-        <Text style={{marginBottom: 10}}>
-          Select different Meal Plans that will definitely help you to stay
-          fit.....
-        </Text>
-        <Button
-          buttonStyle={{
-            borderRadius: 20,
-            marginLeft: 0,
-            marginRight: 0,
-            marginBottom: 0,
-            backgroundColor: 'red',
-          }}
-          title="VIEW"
-        />
-      </Card>
+      <TouchableOpacity>
+        <Card title="MEAL PLANS" image={require('../images/pic.jpg')}>
+          <Text style={{marginBottom: 10}}>
+            Select different Meal Plans that will definitely help you to stay
+            fit.....
+          </Text>
+          <Button
+            buttonStyle={{
+              borderRadius: 20,
+              marginLeft: 0,
+              marginRight: 0,
+              marginBottom: 0,
+              backgroundColor: 'brown',
+            }}
+            title="VIEW"
+          />
+        </Card>
+      </TouchableOpacity>
       <Card title="FITNESS VIDEOS" image={require('../images/pic2.jpg')}>
-        <Text style={{marginBottom: 10}}>
+        <Text style={{marginBottom: 10, color: 'black'}}>
           Watch Videos and maintain your posture
         </Text>
         <Button
@@ -30,7 +33,7 @@ const Land = () => {
             marginLeft: 0,
             marginRight: 0,
             marginBottom: 0,
-            backgroundColor: 'red',
+            backgroundColor: 'brown',
           }}
           title="VIEW"
         />
@@ -46,7 +49,7 @@ const Land = () => {
             marginLeft: 0,
             marginRight: 0,
             marginBottom: 0,
-            backgroundColor: 'red',
+            backgroundColor: 'brown',
           }}
           title="VIEW"
         />

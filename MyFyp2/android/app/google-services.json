@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "744817106063",
+    "firebase_url": "https://health-fit-assistant.firebaseio.com",
+    "project_id": "health-fit-assistant",
+    "storage_bucket": "health-fit-assistant.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:744817106063:android:4821e6ee68d499b040a4fa",
+        "android_client_info": {
+          "package_name": "com.myfyp2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "744817106063-30op3htlmmvmk2nqp34q1vfcpp1d9p1r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.myfyp2",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "744817106063-25gnlgmknlupfb926gdbv0c5sbdi1g37.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDI4DPQQHAZ1Cu_QMJnMtcgpoFpTCKcako"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "744817106063-25gnlgmknlupfb926gdbv0c5sbdi1g37.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

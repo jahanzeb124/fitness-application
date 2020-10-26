@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     flex: 1,
     borderRadius: 5,
-    borderColor: 'white',
+    borderColor: 'brown',
     elevation: 3,
   },
   imageBackground: {

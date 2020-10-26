@@ -9,15 +9,16 @@ import Signup from './Signup';
 import Land from './landing';
 import fitness from './fitness';
 import car from './MealPlans';
+import ChatContainer from './chatcontainer';
 
 const Tab = createMaterialBottomTabNavigator();
 
 const MainTabScreen = ({navigation, route}) => (
   <Tab.Navigator
     initialRouteName="Home"
-    activeColor="#fff"
-    tabBarColor="#8D574B"
-    barStyle={{backgroundColor: '#a9a9a9'}}>
+    activeColor="grey"
+    // tabBarColor="#8D574B"
+  >
     {/* {console.log(navigation)}x */}
     <Tab.Screen
       name="Home"
@@ -25,6 +26,7 @@ const MainTabScreen = ({navigation, route}) => (
       navigation={navigation}
       route={route}
       options={{
+        tabBarColor: 'brown',
         tabBarIcon: ({color}) => (
           <Icon name="ios-home" color={color} size={26} />
         ),
@@ -36,6 +38,7 @@ const MainTabScreen = ({navigation, route}) => (
       navigation={navigation}
       route={route}
       options={{
+        tabBarColor: '#8b054a',
         tabBarIcon: ({color}) => (
           <Icon name="md-fast-food-outline" color={color} size={26} />
         ),
@@ -47,19 +50,33 @@ const MainTabScreen = ({navigation, route}) => (
       route={route}
       component={fitness}
       options={{
+        tabBarColor: '#000',
         tabBarIcon: ({color}) => (
           <Icon name="fitness" color={color} size={26} />
         ),
       }}
     />
     <Tab.Screen
-      name="Profile"
+      name="Trainers"
+      navigation={navigation}
+      route={route}
+      component={ChatContainer}
+      options={{
+        tabBarColor: '#8b054a',
+        tabBarIcon: ({color}) => (
+          <Icon name="ios-person" color={color} size={26} />
+        ),
+      }}
+    />
+    <Tab.Screen
+      name="Settings"
       navigation={navigation}
       route={route}
       component={Profile}
       options={{
+        tabBarColor: '#8b5d4a',
         tabBarIcon: ({color}) => (
-          <Icon name="ios-person" color={color} size={26} />
+          <Icon name="ios-settings" color={color} size={26} />
         ),
       }}
     />
