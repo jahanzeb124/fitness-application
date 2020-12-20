@@ -6,7 +6,8 @@ import {useSelector, useDispatch} from 'react-redux';
 import * as userAction from '../redux/actions/useraction';
 import GoogleLogin from './googlelogin';
 import ChatContainer from './chatcontainer';
-export default function Decide() {
+import Trainer from './trainer';
+export default function Decide(props) {
   const user = useSelector((state) => state.userReducer.user);
   const [initializing, setInitializing] = useState(true);
   const dispatch = useDispatch();
@@ -18,6 +19,7 @@ export default function Decide() {
         email: authUser.email,
         displayName: authUser.displayName,
       };
+
       dispatch(userAction.loginUser(userinfo));
     } else {
       dispatch(userAction.logoutUser());
@@ -31,7 +33,7 @@ export default function Decide() {
   if (initializing) return null;
   return (
     <React.Fragment>
-      {user ? <ChatContainer /> : <GoogleLogin />}
+      {user ? <Trainer navigation={props.navigation} /> : <GoogleLogin />}
     </React.Fragment>
   );
 }

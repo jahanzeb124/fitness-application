@@ -14,28 +14,14 @@ const {width} = Dimensions.get('window');
 const data = [
   {
     uri: 'https://i.ibb.co/NWPWvGj/05ee4b5092d6e47eaf4aec9aacfe1ddf.jpg',
-    title: 'KETO DIET',
-    content:
-      'The ketogenic diet is a very low-carb, high-fat diet that shares many similarities with the Atkins and low-carb diets. ',
+    title: 'Weight Loss Diet',
+    content: 'This diet contains food with low fat ration high carbs......',
   },
   {
     uri: 'https://i.ibb.co/j62tn4D/epic-meal-prep-5.jpg',
-    title: 'DIET PLAN 2 ',
+    title: 'Weight Gain Diet ',
     content:
-      'his is similar to a standard ketogenic diet, but includes more protein. The ratio is often 60% fat, 35% protein and 5% carbs. ',
-  },
-  {
-    uri: 'https://i.ibb.co/V90rVGD/freezer-meals.jpg',
-    title: 'DIET PLAN 3',
-    content:
-      'This diet involves periods of higher-carb refeeds, such as 5 ketogenic days followed by 2 high-carb days',
-  },
-
-  {
-    uri: 'https://i.ibb.co/j62tn4D/epic-meal-prep-5.jpg',
-    title: 'DIET PLAN 4',
-    content:
-      'his is a very low-carb, moderate-protein and high-fat diet. It typically contains 75% fat, 20% protein and only 5% carbs ',
+      'This diet is a very low-carb, high-fat diet that shares many similarities with the Atkins and low-carb diets. ',
   },
 ];
 
@@ -48,6 +34,7 @@ export default class Car extends Component {
         style={styles.item}
         onPress={() => {
           this.numberCarousel.scrollToIndex(index);
+          this.props.navigation.navigate('Meallist', {data: index});
         }}>
         <ImageBackground source={{uri: uri}} style={styles.imageBackground}>
           <View style={styles.rightTextContainer}>

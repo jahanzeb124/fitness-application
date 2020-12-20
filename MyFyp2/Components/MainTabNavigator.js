@@ -10,6 +10,9 @@ import Land from './landing';
 import fitness from './fitness';
 import car from './MealPlans';
 import ChatContainer from './chatcontainer';
+import Decide from './decide';
+import Calories from './Calories';
+import Foot from 'react-native-vector-icons/Foundation';
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -45,10 +48,10 @@ const MainTabScreen = ({navigation, route}) => (
       }}
     />
     <Tab.Screen
-      name="Fitness Videos"
+      name="Calories"
       navigation={navigation}
       route={route}
-      component={fitness}
+      component={Calories}
       options={{
         tabBarColor: '#000',
         tabBarIcon: ({color}) => (
@@ -57,15 +60,25 @@ const MainTabScreen = ({navigation, route}) => (
       }}
     />
     <Tab.Screen
-      name="Trainers"
+      name="Decide"
       navigation={navigation}
       route={route}
-      component={ChatContainer}
+      component={Decide}
       options={{
         tabBarColor: '#8b054a',
         tabBarIcon: ({color}) => (
           <Icon name="ios-person" color={color} size={26} />
         ),
+      }}
+    />
+    <Tab.Screen
+      name="Steps"
+      navigation={navigation}
+      route={route}
+      component={Steps}
+      options={{
+        tabBarColor: '#8b054a',
+        tabBarIcon: ({color}) => <Foot name="foot" color={color} size={26} />,
       }}
     />
     <Tab.Screen

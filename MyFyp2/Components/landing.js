@@ -2,7 +2,10 @@ import {View, ScrollView, Text, Image} from 'react-native';
 import {Card, ListItem, Button, Icon} from 'react-native-elements';
 import React from 'react';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-const Land = () => {
+const Land = ({}) => {
+  // const screen = () => {
+  //   navigation.navigate('Signup');
+  // };
   return (
     <ScrollView>
       <TouchableOpacity>

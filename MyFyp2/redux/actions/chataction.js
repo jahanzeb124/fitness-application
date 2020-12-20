@@ -1,8 +1,7 @@
-export const chatAction = (chatId, chatName, access, creator, members) => ({
+export const chatAction = (chatId, chatName, Access, photo) => ({
   type: 'SET_CHAT',
   chatId: chatId,
   chatName: chatName,
-  access: access,
-  creator: creator,
-  members: members,
+  access: Access,
+  photo: photo,
 });

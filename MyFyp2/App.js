@@ -1,128 +1,186 @@
 import 'react-native-gesture-handler';
-import {createAppContainer, createSwitchNavigator} from 'react-navigation';
-import {createStackNavigator, HeaderTitle} from 'react-navigation-stack';
+// import {createAppContainer, createSwitchNavigator} from 'react-navigation';
+// import {createStackNavigator, HeaderTitle} from 'react-navigation-stack';
 import React, {Component} from 'react';
-import {View, ActivityIndicator, StatusBar, StyleSheet} from 'react-native';
+import {
+  View,
+  ActivityIndicator,
+  StatusBar,
+  StyleSheet,
+  Text,
+} from 'react-native';
+import {createDrawerNavigator} from '@react-navigation/drawer';
+import {
+  getFocusedRouteNameFromRoute,
+  NavigationContainer,
+} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
+
+import Back from 'react-native-vector-icons/Ionicons';
+//////////////////////
 import Login from './Components/Login';
 import Signup from './Components/Signup';
-import Profile from './Components/Profile';
+import Calories from './Components/Calories';
 import Main from './Components/Main';
-import Chat from './Components/Chat';
-import Chat2 from './Components/Channel';
-import Steps from './Components/Steps';
-import ChatScreen from './Components/ChatScreen';
-import Changepass from './Components/Changepass';
-import Land from './Components/landing';
 import Privacy from './Components/Privacy';
-import Icon from 'react-native-vector-icons/Ionicons';
-import Chat3 from './Components/Chat3';
-import You from './Components/fitness';
-import Car from './Components/MealPlans';
-import {NavigationContainer, DrawerActions} from '@react-navigation/native';
 import ChatContainer from './Components/chatcontainer';
 import Convo from './Components/convo';
 import Decide from './Components/decide';
+import Profile from './Components/Profile';
+import Notification from './Components/Notification';
+import Mealslist from './Components/mealslist';
+/////////////////////////
 import {
   TouchableHighlight,
   TouchableOpacity,
 } from 'react-native-gesture-handler';
-// import {firebase} from '@react-native-firebase/firestore';
-// firebase.initializeApp({
-//   appId: '',
-//   apiKey: '',
-//   projectId: '',
-//   databaseURL: '',
-//   storageBucket: '',
-//   messagingSenderId: '',
-//   clientId: '1:744817106063:android:8c73fe76fd260b6f40a4fa',
-// });
-class AuthLoadingScreen extends Component {
-  constructor(props) {
-    super(props);
-  }
+import {useSelector} from 'react-redux';
+import Contact from './Components/Contact';
+import MainTabScreen from './Components/MainTabNavigator';
+import Meals from './Components/MealPlans';
 
-  render() {
-    return <View></View>;
+const Stack = createStackNavigator();
+function getHeaderTitle(route) {
+  // If the focused route is not found, we need to assume it's the initial screen
+  // This can happen during if there hasn't been any navigation inside the screen
+  // In our case, it's "Feed" as that's the first screen inside the navigator
+  const routeName = getFocusedRouteNameFromRoute(route) ?? 'Home';
+
+  switch (routeName) {
+    case 'Home':
+      return 'Home';
+    case 'Contact Us':
+      return 'Contact Us';
   }
 }
 
-const Appstack = createStackNavigator({
-  Home: {
-    screen: ChatContainer,
-    navigationOptions: {
-      headerShown: false,
-    },
-  },
-  Signup: {
-    screen: Signup,
-    navigationOptions: {
-      headerShown: false,
-    },
-  },
-  Main: {
-    screen: Main,
-    navigationOptions: {
-      headerLeft: () => (
-        <Icon.Button
-          name="ios-menu"
-          size={10}
-          // onPress={() =>
-          //   navigation.dispatch(DrawerActions.openDrawer())
-          // }
-        ></Icon.Button>
-      ),
-    },
-  },
-  Chat2: {
-    screen: Chat2,
-    navigationOptions: {
-      headerShown: true,
-    },
-  },
-  Chat3: {
-    screen: Chat3,
-    navigationOptions: {
-      headerShown: true,
-    },
-  },
-  ChatScreen: {
-    screen: ChatScreen,
-    navigationOptions: {
-      headerShown: false,
-    },
-  },
+export default function AuthLoadingScreen(props) {
+  const checklogin = useSelector((state) => state.apiUserReducer.user);
 
-  privacy: {
-    screen: Privacy,
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Login">
+        <Stack.Screen
+          name="Login"
+          component={Login}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Signup"
+          component={Signup}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Calories"
+          component={Calories}
+          options={{headerShown: true}}
+        />
+        <Stack.Screen
+          name="Main"
+          component={Main}
+          options={{headerShown: false}}
+          // options={({route}) => ({
+          //   headerTitle: getHeaderTitle(route),
+          // })}
+        />
+        <Stack.Screen
+          name="Privacy"
+          component={Privacy}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Chats"
+          component={ChatContainer}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Convo"
+          component={Convo}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Decide1"
+          component={Decide}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Profile"
+          component={Profile}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Notification"
+          component={Notification}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Meallist"
+          component={Mealslist}
+          options={{headerShown: false}}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
 
-    navigationOptions: {
-      headerShown: false,
-    },
-  },
-  Chats: {
-    screen: ChatContainer,
+// <NavigationContainer>
+{
+  /* <Stack.Navigator initialRouteName="Login">
+          <Stack.Screen
+            name="Login"
+            component={Login}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="Signup"
+            component={Signup}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="Calories"
+            component={Calories}
+            options={{headerShown: true}}
+          />
+          <Stack.Screen
+            name="Main"
+            component={Main}
+            options={({route}) => ({
+              headerTitle: getHeaderTitle(route),
+            })}
+          />
+          <Stack.Screen
+            name="Privacy"
+            component={Privacy}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="Chats"
+            component={ChatContainer}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="Convo"
+            component={Convo}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="Decide1"
+            component={Decide}
+            options={{headerShown: false}}
+          />
 
-    navigationOptions: {
-      headerShown: false,
-    },
-  },
-  Convo: {
-    screen: Convo,
-
-    navigationOptions: {
-      headerShown: false,
-    },
-  },
-});
-
-export default createAppContainer(Appstack);
-//   createSwitchNavigator(
-//     {
-//       App: AppStack,
-//       AuthLoading: AuthLoadingScreen,
-//      },
-//     {
-//       initialRouteName: "AuthLoading",
-//     }
-//   )
-// );
+          <Stack.Screen
+            name="Profile"
+            component={Profile}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="Notification"
+            component={Notification}
+            options={{headerShown: false}}
+          /> */
+}
+{
+  /* </Stack.Navigator> */
+}
+// </NavigationContainer>;

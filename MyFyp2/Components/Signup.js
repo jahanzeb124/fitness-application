@@ -37,7 +37,7 @@ export default class Signup extends Component {
       weight: this.state.weight,
       age: this.state.age,
     };
-    Axios.post('http://192.168.10.7:3000/users/Signup', user)
+    Axios.post('http://192.168.10.2:3000/users/Signup', user)
       .then((res) => console.log(res.data))
       .catch((error) => console.error(error));
     alert('operation done');

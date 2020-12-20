@@ -5,6 +5,8 @@ var passport = require("passport");
 var authenticate = require("../authenticate");
 var ps = require("python-shell");
 const Users = require("../models/user");
+const xlsxFile = require("read-excel-file/node");
+const { count } = require("../models/user");
 
 router.use(bodyParser.json());
 
@@ -20,6 +22,47 @@ var setpermission = function (req, res, next) {
 router.get("/", function (req, res, next) {
   res.send("respond with a resource");
 });
+
+router.post("/getcalories", function (req, res, next) {
+  var fruit = req.body.data;
+
+  console.log(fruit);
+  xlsxFile("./Data.xlsx").then((rows) => {
+    var response = "";
+    for (let i = 0; i < rows.length; i++) {
+      if (String(rows[i][0]).toUpperCase().includes(fruit.toUpperCase())) {
+        // console.log("Matched");
+        // console.log("Calories:", rows[i][1]);
+        // console.log("Poteins:", rows[i][14]);
+        response = {
+          name: String(rows[i][0]),
+          quantity: String(rows[i][1]),
+          calories: String(rows[i][2]),
+          proteins: String(rows[i][15]),
+        };
+        res.status(200).send(response);
+        break;
+      }
+    }
+    if (response == "") res.status(404).send("not found");
+  });
+});
+
+router.post("/getmeals", function (req, res, next) {
+  xlsxFile("./classified.xlsx").then((rows) => {
+    let i = 1;
+    let find = req.body.data;
+    let data = [];
+    let content = [];
+    rows.map((single) => {
+      if (single[10] === find) {
+        data.push(single);
+      }
+    });
+    res.status(200).send(data);
+  });
+});
+
 router.post("/Signup", (req, res, next) => {
   try {
     Users.register(
@@ -78,12 +121,13 @@ router.post("/login", passport.authenticate("local"), (req, res) => {
     token: token,
     status: "You are successfully logged in!",
     User: req.user,
+    Admin: req.user.admin,
   });
 });
 
 router.get("/viewusers", setpermission, function (req, res, next) {
-  User.find()
-    .sort("name")
+  Users.find()
+    .sort("username")
     .exec(function (error, results) {
       if (error) {
         return next(error);
@@ -91,6 +135,32 @@ router.get("/viewusers", setpermission, function (req, res, next) {
       // Respond with valid data
       res.json(results);
     });
+});
+
+router.delete("/deluser/:username", setpermission, function (req, res, next) {
+  console.log(req.params.username);
+  Users.deleteOne({ username: req.params.username }, function (error, results) {
+    if (error) {
+      return next(error);
+    }
+    // Respond with valid data
+    res.json(results);
+  });
+});
+
+router.put("/updateuser", setpermission, function (req, res, next) {
+  console.log(req.body);
+  Users.findOneAndUpdate(
+    { username: req.body.old },
+    { username: req.body.new },
+    function (error, results) {
+      if (error) {
+        return next(error);
+      }
+      // Respond with valid data
+      res.json(results);
+    }
+  );
 });
 
 module.exports = router;
