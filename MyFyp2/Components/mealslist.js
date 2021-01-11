@@ -28,7 +28,7 @@ export default function Mealslist({route, navigation}) {
   useEffect(() => {
     let dummy = [];
     let dumobj = {};
-    Axios.post('http://192.168.10.7:3000/users/getmeals', {
+    Axios.post('http://192.168.10.6:3000/users/getmeals', {
       data: id,
     }).then((res) => {
       res.data.map((single) => {
@@ -158,8 +158,7 @@ export default function Mealslist({route, navigation}) {
         <FlatList
           data={meals}
           renderItem={renderItem}
-
-          //   keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item.id}
         />
       )}
     </View>

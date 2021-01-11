@@ -1,63 +1,44 @@
 import {StyleSheet, Text, View} from 'react-native';
-import React, {Component} from 'react';
+import React, {Component, useEffect, useState} from 'react';
 import messaging from '@react-native-firebase/messaging';
 import PushNotification from 'react-native-push-notification';
-export default class Notification extends Component {
-  componentDidMount() {
-    this.requestUserPermission();
-    PushNotification.configure({
-      onRegister: function (token) {
-        console.log('TOKEN:', token);
-      },
+import firebase from '@react-native-firebase/app';
 
-      onNotification: function (notification) {
-        console.log('NOTIFICATION:', notification.message);
-        alert(notification.message);
-      },
-
-      onAction: function (notification) {
-        console.log('ACTION:', notification.action);
-        console.log('NOTIFICATION:', notification);
-      },
-
-      onRegistrationError: function (err) {
-        console.error(err.message, err);
-      },
-
-      permissions: {
-        alert: true,
-        badge: true,
-        sound: true,
-      },
-
-      popInitialNotification: true,
-
-      requestPermissions: true,
+export default function Notification() {
+  const [data, setData] = useState('');
+  useEffect(() => {
+    requestUserPermission();
+    getFcmToken();
+    const unsubscribe = messaging().onMessage(async (remoteMessage) => {
+      console.log(remoteMessage);
+      setData(remoteMessage.data);
+      alert('A new FCM message arrived!', remoteMessage.data);
     });
-  }
-  requestUserPermission = async () => {
-    const enabled = await messaging().hasPermission();
+
+    return unsubscribe;
+  }, []);
+
+  async function requestUserPermission() {
+    const authStatus = await messaging().requestPermission();
+    const enabled =
+      authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+      authStatus === messaging.AuthorizationStatus.PROVISIONAL;
 
     if (enabled) {
-      this.getFcmToken(); //<---- Add this
+      console.log('Authorization status:', authStatus);
     }
-  };
-  getFcmToken = async () => {
-    const fcmToken = await messaging().getToken();
-    if (fcmToken) {
-      console.log(fcmToken);
-      console.log(' Firebase Token is:', fcmToken);
-    } else {
-      console.log('Failed', 'No token received');
-    }
-  };
-  render() {
-    return (
-      <View>
-        <Text>HELLO</Text>
-      </View>
-    );
   }
+  async function getFcmToken() {
+    const fcmToken = await firebase.messaging().getToken();
+    if (fcmToken) {
+      console.log('FCM TOKEN:', fcmToken);
+    } else {
+      alert('Failed', 'No token received');
+    }
+  }
+  return (
+    <View>
+      <Text>{data.hello}</Text>
+    </View>
+  );
 }
-
-const styles = StyleSheet.create({});

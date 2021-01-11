@@ -17,6 +17,16 @@ var userSchema = new schema({
     type: Boolean,
     default: false,
   },
+  ban: {
+    type: Boolean,
+    default: false,
+  },
+  exercise: {
+    type: [],
+  },
+  water: {
+    type: {},
+  },
 });
 userSchema.plugin(passportLocalMongoose);
 

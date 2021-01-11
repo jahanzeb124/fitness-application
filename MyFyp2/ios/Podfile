@@ -8,6 +8,20 @@ target 'MyFyp2' do
 
   use_react_native!(:path => config["reactNativePath"])
 
+  pod 'react-native-webview', :path => '../node_modules/react-native-webview'
+
+  pod 'RNAudio', :path => '../node_modules/react-native-audio'
+
+  pod 'RNAudioRecord', :path => '../node_modules/react-native-audio-record'
+
+  pod 'RNSoundPlayer', :path => '../node_modules/react-native-sound-player'
+
+  pod 'react-native-video', :path => '../node_modules/react-native-video'
+
+  pod 'RNCCheckbox', :path => '../node_modules/@react-native-community/checkbox'
+
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
   target 'MyFyp2Tests' do
     inherit! :complete
     # Pods for testing

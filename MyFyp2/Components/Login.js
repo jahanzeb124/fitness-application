@@ -25,6 +25,7 @@ export default function Login({navigation}) {
   const [password, setPassword] = useState('');
   const [id, setId] = useState('');
   const dispatch = useDispatch();
+
   const press = () => {
     navigation.navigate('Signup');
   };
@@ -33,13 +34,15 @@ export default function Login({navigation}) {
       username: username,
       password: password,
     };
-    Axios.post('http://192.168.10.7:3000/users/login', user)
+    Axios.post('http://192.168.10.6:3000/users/login', user)
       .then((res) => {
         if (res.status == 200) {
-          // setId(res.data.User._id);
-          // dispatch(useractions.ApiloginUser(res.data.User));
-
-          navigation.navigate('Main');
+          console.log(res.data);
+          if (res.data.User.ban) {
+            alert('You have been banned by admin');
+          } else navigation.navigate('Main');
+          setId(res.data.User._id);
+          dispatch(useractions.ApiloginUser(res.data.User));
         }
       })
       .catch((error) => {

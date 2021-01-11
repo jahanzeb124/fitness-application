@@ -1,5 +1,5 @@
 import Axios from 'axios';
-import React, {Component} from 'react';
+import React, {Component, useState} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -13,100 +13,122 @@ import {
   ImageBackground,
   TouchableOpacity,
 } from 'react-native';
+import {useSelector} from 'react-redux';
 
-class Privacy extends Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <StatusBar hidden></StatusBar>
+export default function Privacy() {
+  const [old, setOld] = useState('');
+  const [newP, setNewP] = useState('');
+  const [verify, setVerify] = useState('');
+  const checkuser = useSelector((state) => state.apiUserReducer.user);
 
-        <View style={styles.header}>
-          <Text
+  const update = () => {
+    let pass = {
+      old: old,
+      new: newP,
+      verify: verify,
+    };
+    Axios.put('http://192.168.10.8:3000/users/updatepass', pass)
+      .then((res) => console.log(res))
+      .catch((error) => console.error(error));
+    alert('UPDATED SUCCESSFULLY');
+  };
+
+  return (
+    <View style={styles.container}>
+      <StatusBar hidden></StatusBar>
+
+      <Text
+        style={{
+          fontSize: 30,
+          marginTop: 30,
+          color: 'black',
+          fontWeight: 'bold',
+          alignSelf: 'center',
+        }}>
+        Change Password
+      </Text>
+      <View
+        style={{
+          borderTopLeftRadius: 20,
+          borderTopRightRadius: 20,
+          marginHorizontal: 10,
+          marginTop: 50,
+          flex: 1,
+          backgroundColor: 'white',
+
+          shadowColor: '#000',
+          shadowOffset: {
+            width: 0,
+            height: 2,
+          },
+          shadowOpacity: 0.23,
+          shadowRadius: 2.62,
+
+          elevation: 4,
+        }}>
+        <View
+          style={{
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginVertical: 20,
+          }}>
+          <TextInput
+            placeholder="Old Password"
+            onChangeText={(text) => setOld(text)}
             style={{
-              fontSize: 35,
-              marginTop: 30,
-              color: 'grey',
-              fontWeight: 'bold',
-            }}>
-            Privacy Settings
-          </Text>
+              borderBottomWidth: 0.5,
+              alignSelf: 'stretch',
+              paddingLeft: 20,
+            }}
+          />
+          <TextInput
+            placeholder="New Password"
+            onChangeText={(text) => setNewP(text)}
+            style={{
+              borderBottomWidth: 0.5,
+              alignSelf: 'stretch',
+              paddingLeft: 20,
+            }}
+          />
+          <TextInput
+            placeholder="Verify Password"
+            onChangeText={(text) => setVerify(text)}
+            style={{
+              borderBottomWidth: 0.5,
+              alignSelf: 'stretch',
+              paddingLeft: 20,
+            }}
+          />
         </View>
 
-        <View style={styles.footer}>
-          <Text
-            style={[
-              styles.title,
-              {
-                marginTop: 50,
-              },
-            ]}>
-            Email
-          </Text>
-
-          <View style={styles.action}></View>
-
-          <View>
-            <Text
-              style={[
-                styles.title,
-                {
-                  marginTop: 50,
-                },
-              ]}>
-              Password
-            </Text>
-            <View style={styles.action}></View>
-          </View>
-
-          <View style={styles.btn}>
-            <TouchableOpacity>
-              <Text style={styles.btntxt}>Submit</Text>
-            </TouchableOpacity>
-          </View>
+        <View style={styles.btn}>
+          <TouchableOpacity onPress={update}>
+            <Text style={styles.btntxt}>Update</Text>
+          </TouchableOpacity>
         </View>
       </View>
-    );
-  }
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000',
+    backgroundColor: 'grey',
   },
-  header: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  footer: {
-    flex: 3,
-    backgroundColor: '#ffff',
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
-    paddingVertical: 50,
-    paddingHorizontal: 30,
-  },
+
   title: {
     color: 'black',
     fontWeight: 'bold',
     fontSize: 20,
   },
-  action: {
-    flexDirection: 'row',
-    borderBottomWidth: 1,
-    borderBottomColor: '#000',
-  },
-  inputbox: {
-    flex: 1,
-    marginTop: 5,
-    paddingBottom: 5,
-    color: 'gray',
-  },
+
   btn: {
-    marginLeft: 50,
+    alignSelf: 'center',
+
     width: 200,
     borderRadius: 25,
-    marginVertical: 30,
+
     height: 50,
     borderColor: 'gray',
     borderWidth: 2,
@@ -119,5 +141,3 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
-
-export default Privacy;

@@ -8,6 +8,7 @@ import {
   ImageBackground,
 } from 'react-native';
 import Carousel from 'react-native-anchor-carousel';
+import {useSelector} from 'react-redux';
 
 const {width} = Dimensions.get('window');
 

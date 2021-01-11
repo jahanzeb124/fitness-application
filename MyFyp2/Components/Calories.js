@@ -49,7 +49,7 @@ export default function Calories() {
 
   const check = () => {
     console.log(mealname);
-    Axios.post('http://192.168.10.7:3000/users/getcalories', {data: mealname})
+    Axios.post('http://192.168.10.6:3000/users/getcalories', {data: mealname})
       .then((res) => {
         if (res.status == 200) {
           console.log(res.data);

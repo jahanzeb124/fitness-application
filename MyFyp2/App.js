@@ -29,6 +29,7 @@ import Decide from './Components/decide';
 import Profile from './Components/Profile';
 import Notification from './Components/Notification';
 import Mealslist from './Components/mealslist';
+
 /////////////////////////
 import {
   TouchableHighlight,
@@ -38,6 +39,13 @@ import {useSelector} from 'react-redux';
 import Contact from './Components/Contact';
 import MainTabScreen from './Components/MainTabNavigator';
 import Meals from './Components/MealPlans';
+import Workouts from './Components/Workouts';
+import You from './Components/fitness';
+import SwiperComponent from './Components/Swiper';
+import audio from './Components/audio';
+import Personal from './Components/personal';
+import Water from './Components/water';
+import Steps from './Components/Steps';
 
 const Stack = createStackNavigator();
 function getHeaderTitle(route) {
@@ -116,6 +124,41 @@ export default function AuthLoadingScreen(props) {
         <Stack.Screen
           name="Meallist"
           component={Mealslist}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Workouts"
+          component={Workouts}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="You"
+          component={You}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="SwiperComponent"
+          component={SwiperComponent}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Audio"
+          component={audio}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Personal"
+          component={Personal}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Water"
+          component={Water}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Steps"
+          component={Steps}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

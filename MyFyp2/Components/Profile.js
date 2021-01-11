@@ -63,7 +63,10 @@ export default class ProfileScreen extends Component {
         </View>
 
         <View style={styles.menuWrapper}>
-          <TouchableRipple onPress={() => {}}>
+          <TouchableRipple
+            onPress={() => {
+              this.props.navigation.navigate('Personal');
+            }}>
             <View style={styles.menuItem}>
               <Icon name="md-information-circle" color="#dc143c" size={25} />
               <Text style={styles.menuItemText}> Personal Information</Text>
@@ -75,7 +78,7 @@ export default class ProfileScreen extends Component {
           <TouchableRipple
             onPress={() => {
               // console.log(this.props.navigation);
-              this.props.navigation.navigate('Signup');
+              this.props.navigation.navigate('Privacy');
             }}>
             <View style={styles.menuItem}>
               <Icon name="md-information-circle" color="#dc143c" size={25} />

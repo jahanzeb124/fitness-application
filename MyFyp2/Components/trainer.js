@@ -35,7 +35,7 @@ export default function Trainer({navigation}) {
     },
     {
       name: 'zee 2',
-      gmail: 'jahanzebakbar77@gmail.com',
+      gmail: 'jahanzebakbar7@gmail.com',
       age: '18',
       exp: '3',
       photo:
@@ -78,26 +78,29 @@ export default function Trainer({navigation}) {
       <TouchableOpacity onPress={() => navigation.navigate('Chats')}>
         <Text>Go to Chats</Text>
       </TouchableOpacity>
-      {data.map(({name, age, exp, photo, gmail}, i) => (
-        <View style={styles.onetrainer} key={i}>
-          <Image
-            source={{
-              uri: photo,
-            }}
-            style={{width: 150, height: 120, borderRadius: 10}}
-          />
-          <View style={{marginLeft: 10}}>
-            <Text style={styles.info}>{name}</Text>
-            <Text style={styles.info}>{age}</Text>
-            <Text style={styles.info}>{exp}</Text>
-            <TouchableOpacity
-              style={styles.btn}
-              onPress={() => clicked(name, gmail, photo)}>
-              <Text style={styles.btntxt}>Chat</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      ))}
+      {data.map(({name, age, exp, photo, gmail}, i) => {
+        if (gmail !== user.email)
+          return (
+            <View style={styles.onetrainer} key={i}>
+              <Image
+                source={{
+                  uri: photo,
+                }}
+                style={{width: 150, height: 120, borderRadius: 10}}
+              />
+              <View style={{marginLeft: 10}}>
+                <Text style={styles.info}>{name}</Text>
+                <Text style={styles.info}>{age}</Text>
+                <Text style={styles.info}>{exp}</Text>
+                <TouchableOpacity
+                  style={styles.btn}
+                  onPress={() => clicked(name, gmail, photo)}>
+                  <Text style={styles.btntxt}>Chat</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          );
+      })}
       {/* <View style={styles.onetrainer}>
         <Image
           source={{

@@ -5,6 +5,7 @@ var passport = require("passport");
 var authenticate = require("../authenticate");
 var ps = require("python-shell");
 const Users = require("../models/user");
+
 const xlsxFile = require("read-excel-file/node");
 const { count } = require("../models/user");
 
@@ -116,6 +117,7 @@ router.post("/login", passport.authenticate("local"), (req, res) => {
   var token = authenticate.getToken({ _id: req.user._id });
   res.statusCode = 200;
   res.setHeader("Content-Type", "application/json");
+
   res.json({
     success: true,
     token: token,
@@ -161,6 +163,92 @@ router.put("/updateuser", setpermission, function (req, res, next) {
       res.json(results);
     }
   );
+});
+
+router.put("/addworkout", setpermission, function (req, res, next) {
+  Users.updateOne(
+    { _id: req.body.id },
+    { $addToSet: { exercise: req.body.ex } },
+    function (error, results) {
+      if (error) {
+        return next(error);
+      }
+      // Respond with valid data
+      res.json(results);
+      console.log(results);
+    }
+  );
+});
+router.put("/addwater", setpermission, function (req, res, next) {
+  Users.findOneAndUpdate(
+    { _id: req.body.id },
+    { $set: { water: req.body.water } },
+    { rawResult: true, new: true },
+    function (error, results) {
+      if (error) {
+        return next(error);
+      }
+      // Respond with valid data
+      res.json(results);
+      console.log(results);
+    }
+  );
+});
+router.put("/updatepass", setpermission, function (req, res, next) {
+  // Init Variables
+  var passwordDetails = req.body;
+
+  if (req.user) {
+    if (passwordDetails.new) {
+      Users.findById(req.user._id, function (err, user) {
+        if (!err && user) {
+          if (user.authenticate(passwordDetails.old)) {
+            if (passwordDetails.new === passwordDetails.verify) {
+              user.password = passwordDetails.new;
+
+              user.save(function (err) {
+                if (err) {
+                  return res.status(422).send({
+                    message: errorHandler.getErrorMessage(err),
+                  });
+                } else {
+                  req.login(user, function (err) {
+                    if (err) {
+                      res.status(400).send(err);
+                    } else {
+                      res.send({
+                        message: "Password changed successfully",
+                      });
+                    }
+                  });
+                }
+              });
+            } else {
+              res.status(422).send({
+                message: "Passwords do not match",
+              });
+            }
+          } else {
+            res.status(422).send({
+              message: "Current password is incorrect",
+            });
+          }
+        } else {
+          res.status(400).send({
+            message: "User is not found",
+          });
+        }
+      });
+    } else {
+      res.status(422).send({
+        message: "Please provide a new password",
+      });
+    }
+  } else {
+    res.status(401).send({
+      message: "User is not signed in",
+    });
+  }
 });
 
 module.exports = router;

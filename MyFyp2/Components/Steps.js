@@ -64,14 +64,14 @@ export default function Steps() {
                   .format('YYYY-MM-DD'),
               );
 
-              const options = {
-                startDate: moment(new Date())
-                  .subtract(days.indexOf(today), 'day')
-                  .format('YYYY-MM-DD'), // required ISO8601Timestamp
-                endDate: moment(new Date())
-                  .subtract(1, 'day')
-                  .format('YYYY-MM-DD'), // required ISO8601Timestamp
-              };
+              // const options = {
+              //   startDate: moment(new Date())
+              //     .subtract(days.indexOf(today), 'day')
+              //     .format('YYYY-MM-DD'), // required ISO8601Timestamp
+              //   endDate: moment(new Date())
+              //     .subtract(1, 'day')
+              //     .format('YYYY-MM-DD'), // required ISO8601Timestamp
+              // };
               console.log(options.endDate);
               GoogleFit.getDailySteps(new Date().toISOString())
                 .then((res) => {
@@ -79,37 +79,37 @@ export default function Steps() {
                     if (
                       item.source === 'com.google.android.gms:merge_step_deltas'
                     ) {
-                      // console.log(item.steps);
-                      // console.log(item.steps[0].value);
-                      setSteps(224);
+                      console.log(item.steps);
+                      console.log(item.steps[0].value);
+                      setSteps(item.steps[0].value);
                     }
                   });
                 })
                 .catch((err) => {
                   console.warn(err);
                 });
-              GoogleFit.getDailyStepCountSamples(options)
-                .then((res) => {
-                  res.map((item) => {
-                    if (
-                      item.source === 'com.google.android.gms:merge_step_deltas'
-                    ) {
-                      // console.log(item.steps.length);
-                      // setSteps(item.steps[0].value);
-                      let dummy = [];
-                      for (let i = 0; i < item.steps.length; i++) {
-                        dummy[i] = {
-                          title: daynames[i],
-                          content: item.steps[i].value,
-                        };
-                      }
-                      setContent(dummy);
-                    }
-                  });
-                })
-                .catch((err) => {
-                  console.warn(err);
-                });
+              // GoogleFit.getDailyStepCountSamples(options)
+              //   .then((res) => {
+              //     res.map((item) => {
+              //       if (
+              //         item.source === 'com.google.android.gms:merge_step_deltas'
+              //       ) {
+              //         // console.log(item.steps.length);
+              //         // setSteps(item.steps[0].value);
+              //         let dummy = [];
+              //         for (let i = 0; i < item.steps.length; i++) {
+              //           dummy[i] = {
+              //             title: daynames[i],
+              //             content: item.steps[i].value,
+              //           };
+              //         }
+              //         setContent(dummy);
+              //       }
+              //     });
+              //   })
+              //   .catch((err) => {
+              //     console.warn(err);
+              //   });
             }
           });
         } else {
@@ -180,7 +180,9 @@ export default function Steps() {
         </Text>
         <View style={{flex: 1}}>
           {new Date().getDay() === 1 ? (
-            <Text>No Week History Available</Text>
+            <Text style={{textAlign: 'center', marginTop: 20}}>
+              No Week History Available
+            </Text>
           ) : (
             <Accordion
               containerStyle={{

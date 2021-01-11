@@ -16,6 +16,11 @@ import firestore from '@react-native-firebase/firestore';
 import DocumentPicker from 'react-native-document-picker';
 import RNFS from 'react-native-fs';
 import {Flipper, Flipped} from 'react-flip-toolkit';
+import AudioRecord from 'react-native-audio-record';
+import storage from '@react-native-firebase/storage';
+import 'react-native-get-random-values';
+import {v4 as uuidv4} from 'uuid';
+
 export default function Convo({navigation}) {
   const info = useSelector((state) => state.chatReducer.chat);
   const user = useSelector((state) => state.userReducer.user);
@@ -23,7 +28,10 @@ export default function Convo({navigation}) {
   const [msg, setmsg] = useState('');
   const [selected, setselected] = useState('');
   const db = firestore();
+
   const [singleFile, setSingleFile] = useState('');
+  const [blob, setBlob] = useState('');
+  const [vmsg, setVmsg] = useState(true);
   useEffect(() => {
     if (info.chatId) {
       db.collection('chats')
@@ -41,8 +49,38 @@ export default function Convo({navigation}) {
       console.log('cleaned up');
     };
   }, []);
+
+  const options = {
+    sampleRate: 16000, // default 44100
+    channels: 1, // 1 or 2, default 1
+    bitsPerSample: 16, // 8 or 16, default 16
+    audioSource: 6, // android only (see below)
+    wavFile: 'test.wav', // default 'audio.wav'
+  };
+
+  const start = async () => {
+    setVmsg(!vmsg);
+    console.log(vmsg);
+    if (vmsg) {
+      console.log('started');
+      AudioRecord.init(options);
+      AudioRecord.start();
+    } else {
+      console.log('stopped');
+      let audioFile = await AudioRecord.stop();
+      let res = await fetch('file:///' + audioFile).then((r) => r.blob());
+      setBlob(res);
+    }
+  };
+  // const stopRecord = async () => {
+  //   console.log('stopped');
+  //   let audioFile = await AudioRecord.stop();
+  //   let res = await fetch('file:///' + audioFile).then((r) => r.blob());
+
+  //   setBlob(res);
+  // };
   const pressed = () => {
-    if (selected !== '' || msg !== '') {
+    if ((blob == '' && selected !== '') || msg !== '') {
       db.collection('chats').doc(info.chatId).collection('messages').add({
         timestamp: firestore.FieldValue.serverTimestamp(),
         message: msg,
@@ -51,10 +89,49 @@ export default function Convo({navigation}) {
         email: user.email,
         displayName: user.displayName,
         image: singleFile,
+        voiceurl: '',
       });
+      setBlob('');
       setmsg('');
       setselected('');
+      setSingleFile('');
+    } else if (blob) {
+      const id = uuidv4();
+      console.log('id', id);
+      storage()
+        .ref(`sounds/${id}`)
+        .put(blob)
+        .then(function (snapshot) {
+          console.log('Uploaded a blob or file!');
+          console.log(snapshot);
+          if (snapshot.state == 'success') {
+            storage()
+              .ref('sounds')
+              .child(id)
+              .getDownloadURL()
+              .then((url) => {
+                db.collection('chats')
+                  .doc(info.chatId)
+                  .collection('messages')
+                  .add({
+                    timestamp: firestore.FieldValue.serverTimestamp(),
+                    message: '',
+                    uid: user.uid,
+                    photo: user.photo,
+                    email: user.email,
+                    displayName: user.displayName,
+                    image: singleFile,
+                    voiceurl: url,
+                  });
+              });
+          }
+        });
+      setBlob('');
+      setselected('');
+      setmsg('');
+      setSingleFile('');
     }
+    // }
   };
   const goback = () => {
     navigation.navigate('Chats');
@@ -114,10 +191,17 @@ export default function Convo({navigation}) {
 
         <View style={styles.send}>
           <TextInput
+            placeholderTextColor="#000"
             value={msg}
             editable={info.chatId ? true : false}
             onChangeText={(text) => setmsg(text)}
-            placeholder="send message"
+            placeholder={
+              vmsg && blob == ''
+                ? 'Send a message'
+                : blob
+                ? 'Message recorded...Hit Send'
+                : 'Recording messsage'
+            }
             style={{
               alignSelf: 'center',
               height: 40,
@@ -126,6 +210,7 @@ export default function Convo({navigation}) {
               borderRadius: 20,
               borderWidth: 1.5,
               width: 280,
+              paddingLeft: 15,
             }}
             //   onChangeText={(text) => onChangeText(text)}
           />
@@ -145,6 +230,13 @@ export default function Convo({navigation}) {
             }}>
             <TouchableOpacity onPress={select}>
               <Icon name="image" size={25} style={{margin: 8}}></Icon>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={start}>
+              <Icon
+                name="mic"
+                size={20}
+                color={vmsg ? 'black' : 'red'}
+                style={{margin: 8}}></Icon>
             </TouchableOpacity>
             <TouchableOpacity onPress={pressed}>
               <Icon name="send" size={20} style={{margin: 8}}></Icon>
